@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-
-//import Logo from "../../assets/airbnb-logo.svg";
+import { Button, TextInput} from 'react-materialize';
 import api from "../../services/api";
 import { login } from "../../services/auth";
 
@@ -27,7 +26,7 @@ class SignIn extends Component {
       } catch (err) {
         this.setState({
           error:
-            "Houve um problema com o login, verifique suas credenciais. T.T"
+            "Houve um problema com o login, verifique suas credenciais."
         });
       }
     }
@@ -35,21 +34,25 @@ class SignIn extends Component {
 
   render() {
     return (
+      
       <Container>
+        <h4>Painel de Notícias</h4>
         <Form onSubmit={this.handleSignIn}>
          
           {this.state.error && <p>{this.state.error}</p>}
-          <input
+          <TextInput
+            icon="email"
             type="email"
             placeholder="Endereço de e-mail"
             onChange={e => this.setState({ email: e.target.value })}
           />
-          <input
+          <TextInput
+            icon="lock"
             type="password"
             placeholder="Senha"
             onChange={e => this.setState({ password: e.target.value })}
           />
-          <button type="submit">Entrar</button>
+          <Button type="submit">Entrar</Button>
           <hr />
           <Link to="/signup">Criar conta grátis</Link>
         </Form>
