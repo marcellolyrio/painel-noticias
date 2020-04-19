@@ -9,7 +9,8 @@ export const Container = styled.div`
 
 export const Form = styled.form`
   width: 350px;
-  background: #c0c0c0;
+  background: #fff;
+  border: 1px solid #999;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -31,7 +32,7 @@ export const Form = styled.form`
     height: 46px;
     margin-bottom: 15px;
     padding: 0 20px;
-    color: #777;
+    color: #000;
     font-size: 15px;
     width: 90%;
     border: 1px solid #ddd;
@@ -42,7 +43,7 @@ export const Form = styled.form`
   button {
     color: #fff;
     font-size: 16px;
-    background: #fc6963;
+    background: #6a1b9a;
     height: 56px;
     border: 0;
     border-radius: 5px;
