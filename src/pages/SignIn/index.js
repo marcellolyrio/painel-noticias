@@ -36,7 +36,7 @@ class SignIn extends Component {
     return (
       
       <Container>
-        <h4>Painel de Notícias</h4>
+       
         <Form onSubmit={this.handleSignIn}>
          
           {this.state.error && <p>{this.state.error}</p>}
