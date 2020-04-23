@@ -15,7 +15,6 @@ class Main extends Component {
       <Container>
         <Header />
         <List />
-    
       </Container>
   
       
