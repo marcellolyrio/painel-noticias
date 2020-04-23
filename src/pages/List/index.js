@@ -12,13 +12,13 @@ class List extends Component{
   constructor() {
     super()
     this.state = {
-      Posts: "",
-      showModal: false
+      Posts: ""
+     
     }
   }
 
   componentDidMount() {
-    this.renderPosts();
+    this.listar();
     
   }
 
@@ -38,12 +38,13 @@ class List extends Component{
         if (result.value) {
           Api.delete(`/messages/${ id }`);
           Swal.fire(
-            'Deleted!',
-            'Your file has been deleted.',
+            'Excluído!',
+            'Esta mensagem foi excluída.',
             'success',
             
           )
         }
+        window.location.href ='/App'
       })
       
     } catch (e) {
@@ -58,7 +59,37 @@ class List extends Component{
     
   }
 
-  renderPosts = async() => {
+  editar = async (id) =>{
+   const dados = await Api.get(`/messages/${id}`)
+          
+   const { value: formValues } = await Swal.fire({
+            title: 'Editar mensagem',
+            html:
+              `<input type="text" id="swal-input1" class="swal2-input" value="${dados.data.title}">` +
+              `<textarea id="swal-input2" class="swal2-input">${dados.data.message}</textarea>`,
+            focusConfirm: false,
+            preConfirm: () => {
+              return {
+                title: document.getElementById('swal-input1').value,
+                message: document.getElementById('swal-input2').value
+              }
+            }
+          })
+          
+          if (formValues) {
+            await Api.put(`/messages/${id}`, formValues);
+      
+               await Swal.fire({
+                  text: "Mensagem atualizada com sucesso.",
+                  icon: 'success',
+                })
+                window.location.href ='/App'
+                
+          }
+
+  }
+
+  listar = async() => {
     try {
       let res = await Api.get("/messages");
       let messages = res.data;
@@ -66,14 +97,13 @@ class List extends Component{
      
       this.setState({
         Posts: messages.map((note) => (
-          
-              messages !== '' ? (
-                <tr>
+               messages !== '' ? (
+                <tr key={note.id}>
                   <td>{note.id} - {note.title}</td>
                   <td>{new Date(note.created_at).toLocaleString()}</td>
                   <td>
-                    <a href="#modal1" class="waves-effect waves-light btn-small purple darken-3 modal-trigger" id="acoes"><i class="material-icons">edit</i></a> 
-                    <a href="#!" onClick={ () => this.deletar(note.id)} class="waves-effect waves-light btn-small purple darken-3" id="acoes"><i class="material-icons">delete</i></a>
+                    <a href="#!" onClick={ () => this.editar(note.id)} className="waves-effect waves-light btn-small purple darken-3 modal-trigger" id="acoes"><i className="material-icons">edit</i></a> 
+                    <a href="#!" onClick={ () => this.deletar(note.id)} className="waves-effect waves-light btn-small purple darken-3" id="acoes"><i className="material-icons">delete</i></a>
                   </td>
                 </tr>
               ) : (
@@ -87,14 +117,42 @@ class List extends Component{
       console.log(err);
     }
   }
+
+  cadastrar = async () =>{
+   
+    const { value: formValues } = await Swal.fire({
+      title: 'Cadastrar mensagem',
+      html:
+        '<input type="text" id="swal-input1" class="swal2-input">' +
+        '<textarea id="swal-input2" class="swal2-input"></textarea>',
+      focusConfirm: false,
+      preConfirm: () => {
+        return {
+          title: document.getElementById('swal-input1').value,
+          message: document.getElementById('swal-input2').value
+        }
+      }
+    })
+    
+    if (formValues) {
+      await Api.post('/messages', formValues);
+
+         await Swal.fire({
+            text: "Mensagem cadastrada com sucesso.",
+            icon: 'success',
+          })
+          window.location.href ='/App'
+          
+    }
+  }
   
   render() {
       return (
         <div className="container">
-          <div class="adicionar">
-          <a href="#!" class="waves-effect waves-light btn-floating purple darken-3"><i class="material-icons">add</i></a>
+          <div className="adicionar">
+          <a href="#!" onClick={ () => this.cadastrar() } className="waves-effect waves-light btn-floating purple darken-3"><i className="material-icons">add</i></a>
           </div>
-          <table class="responsive-table">
+          <table className="responsive-table">
           <thead>
             <tr>
                 <th>Titulo</th>
@@ -102,14 +160,12 @@ class List extends Component{
                 <th>Ações</th>
             </tr>
           </thead>
-
-          <tbody>
-          {this.state.Posts}
-          </tbody>
+          <tbody>{this.state.Posts}</tbody>
         </table>
         </div>
       );
     }
+
 }
 
 export default List;

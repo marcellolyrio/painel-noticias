@@ -15,10 +15,10 @@ class Header extends Component{
       return (
         <div className="container-fluid">
           <nav>
-            <div class="nav-wrapper purple darken-3">
-              <a href="#!" class="logo">Painel de Notícias</a>
-              <a href="#!" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-              <ul class="right hide-on-med-and-down">
+            <div className="nav-wrapper purple darken-3">
+              <a href="#!" className="logo">Painel de Notícias</a>
+              <a href="#!" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
+              <ul className="right hide-on-med-and-down">
                 <li>
                     <a href="#!" onClick={this.handleLogout}>
                     <Icon left>
