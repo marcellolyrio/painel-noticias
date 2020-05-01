@@ -34,7 +34,7 @@ class SignUp extends Component {
     return (
       <Container>
         <Form onSubmit={this.handleSignUp}>
-          
+        <div className="row"><h5>Painel de Notícias</h5></div>
           {this.state.error && <p>{this.state.error}</p>}
           <input
             type="text"
