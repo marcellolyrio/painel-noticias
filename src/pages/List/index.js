@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Swal from 'sweetalert2';
-//import { useHistory } from "react-router-dom";
 import   Api   from "../../services/api";
 import "./styles.css";
 
@@ -19,7 +18,7 @@ class List extends Component{
 
   componentDidMount() {
     this.listar();
-    
+    this.setState();
   }
 
   deletar = async (id) => {
@@ -37,14 +36,14 @@ class List extends Component{
       }).then((result) => {
         if (result.value) {
           Api.delete(`/messages/${ id }`);
-          Swal.fire(
-            'Excluído!',
-            'Esta mensagem foi excluída.',
-            'success',
-            
-          )
+            Swal.fire(
+              'Excluído!',
+              'Esta mensagem foi excluída.',
+              'success', 
+            )
+            window.location.href ='/App'
         }
-        window.location.href ='/App'
+      
       })
       
     } catch (e) {
@@ -60,6 +59,7 @@ class List extends Component{
   }
 
   editar = async (id) =>{
+
    const dados = await Api.get(`/messages/${id}`)
           
    const { value: formValues } = await Swal.fire({
@@ -68,6 +68,7 @@ class List extends Component{
               `<input type="text" id="swal-input1" class="swal2-input" value="${dados.data.title}">` +
               `<textarea id="swal-input2" class="swal2-input">${dados.data.message}</textarea>`,
             focusConfirm: false,
+            showCancelButton: true,
             preConfirm: () => {
               return {
                 title: document.getElementById('swal-input1').value,
@@ -93,8 +94,7 @@ class List extends Component{
     try {
       let res = await Api.get("/messages");
       let messages = res.data;
-      // this will re render the view with new data
-     
+          
       this.setState({
         Posts: messages.map((note) => (
                messages !== '' ? (
@@ -102,8 +102,8 @@ class List extends Component{
                   <td>{note.id} - {note.title}</td>
                   <td>{new Date(note.created_at).toLocaleString()}</td>
                   <td>
-                    <a href="#!" onClick={ () => this.editar(note.id)} className="waves-effect waves-light btn-small purple darken-3 modal-trigger" id="acoes"><i className="material-icons">edit</i></a> 
-                    <a href="#!" onClick={ () => this.deletar(note.id)} className="waves-effect waves-light btn-small purple darken-3" id="acoes"><i className="material-icons">delete</i></a>
+                    <a href="#!" onClick={ () => this.editar(note.id)} className="waves-effect waves-light btn-small purple darken-3" id="acoes"><i className="material-icons" id="icones">edit</i></a> 
+                    <a href="#!" onClick={ () => this.deletar(note.id)} className="waves-effect waves-light btn-small purple darken-3" id="acoes"><i className="material-icons" id="icones">delete</i></a>
                   </td>
                 </tr>
               ) : (
@@ -123,9 +123,10 @@ class List extends Component{
     const { value: formValues } = await Swal.fire({
       title: 'Cadastrar mensagem',
       html:
-        '<input type="text" id="swal-input1" class="swal2-input">' +
-        '<textarea id="swal-input2" class="swal2-input"></textarea>',
+        '<input type="text" id="swal-input1" className="swal2-input">' +
+        '<textarea id="swal-input2" className="swal2-input"></textarea>',
       focusConfirm: false,
+      showCancelButton: true,
       preConfirm: () => {
         return {
           title: document.getElementById('swal-input1').value,
@@ -148,20 +149,28 @@ class List extends Component{
   
   render() {
       return (
-        <div className="container">
-          <div className="adicionar">
-          <a href="#!" onClick={ () => this.cadastrar() } className="waves-effect waves-light btn-floating purple darken-3"><i className="material-icons">add</i></a>
-          </div>
-          <table className="responsive-table">
-          <thead>
-            <tr>
+        <div className="row">
+          <div id="man" className="col s12">
+            <div className="card material-table">
+              <div className="table-header">
+                <span className="table-title">Mensagens</span>
+                <div className="actions">
+                <a href="#!" onClick={ () => this.cadastrar() } className="waves-effect btn-flat nopadding"><i className="material-icons">add</i></a>
+                <a href="#!" className="search-toggle waves-effect btn-flat nopadding"><i className="material-icons">search</i></a>
+                </div> 
+              </div>     
+              <table id="datatable">
+                <thead>
+                <tr>
                 <th>Titulo</th>
                 <th>Criada em</th>
                 <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>{this.state.Posts}</tbody>
-        </table>
+                </tr>
+                </thead>      
+                <tbody>{this.state.Posts}</tbody>
+              </table>
+            </div>
+          </div>
         </div>
       );
     }
