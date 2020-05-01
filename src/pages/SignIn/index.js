@@ -38,7 +38,7 @@ class SignIn extends Component {
       <Container>
        
         <Form onSubmit={this.handleSignIn}>
-         
+        <div className="row"><h5>Painel de Notícias</h5></div>
           {this.state.error && <p>{this.state.error}</p>}
           <TextInput
             icon="email"
