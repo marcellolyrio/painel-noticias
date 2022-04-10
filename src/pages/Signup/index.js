@@ -51,7 +51,7 @@ class SignUp extends Component {
             placeholder="Senha"
             onChange={e => this.setState({ password: e.target.value })}
           />
-          <button type="submit">Cadastrar</button>
+          <button type="submit">CADASTRAR</button>
           <hr />
           <Link to="/">Fazer login</Link>
         </Form>
