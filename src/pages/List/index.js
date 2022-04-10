@@ -24,6 +24,7 @@ class List extends Component{
   deletar = async (id) => {
     
     try {
+      await Api.delete(`/messages/${id}`);
       
       Swal.fire({
         title: '',
@@ -35,7 +36,6 @@ class List extends Component{
         confirmButtonText: 'Excluir'
       }).then((result) => {
         if (result.value) {
-          Api.delete(`/messages/${ id }`);
             Swal.fire(
               'Excluído!',
               'Esta mensagem foi excluída.',
