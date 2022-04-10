@@ -10,7 +10,8 @@ export const Container = styled.div`
 export const Form = styled.form`
   width: 350px;
   background: #fff;
-  border: 1px solid #999;
+  border: 1px solid #eee;
+  border-radius:15px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -18,6 +19,9 @@ export const Form = styled.form`
   img {
     width: 100px;
     margin: 10px 0 40px;
+  }
+  i{
+    color: #6a1b9a;
   }
   p {
     color: #ff3333;
@@ -34,7 +38,7 @@ export const Form = styled.form`
     padding: 0 20px;
     color: #000;
     font-size: 15px;
-    width: 90%;
+    width: 100%;
     border: 1px solid #ddd;
     &::placeholder {
       color: #999;
